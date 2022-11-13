@@ -20,5 +20,10 @@ Route::controller(VacancyController::class)->group(function () {
     Route::get('vacancies', 'index');
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('vacancies', 'store');
+        Route::patch('vacancies/{vacancy}', 'update');
     });
 });
+
+//Route::apiResources([
+//    'vacancies' => VacancyController::class
+//]);

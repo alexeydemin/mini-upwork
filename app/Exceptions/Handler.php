@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
@@ -51,6 +52,13 @@ class Handler extends ExceptionHandler
                 'status' => 'ERROR',
                 'message' => 'You are not authenticated'
             ], 401);
+        }
+
+        if ($e instanceof AuthorizationException) {
+            return response()->json([
+                'status' => 'ERROR',
+                'message' => 'You are not allowed to do this action'
+            ], 403);
         }
 
         if ($e instanceof MethodNotAllowedHttpException) {
