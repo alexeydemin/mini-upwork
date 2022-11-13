@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DestroyVacancyRequest;
 use App\Http\Requests\IndexVacancyRequest;
 use App\Http\Requests\StoreVacancyRequest;
 use App\Http\Requests\UpdateVacancyRequest;
+use App\Models\Like;
+use App\Models\Response;
 use App\Models\Vacancy;
 use Illuminate\Http\JsonResponse;
 
@@ -61,7 +64,7 @@ class VacancyController extends Controller
      *
      * @param \App\Http\Requests\UpdateVacancyRequest $request
      * @param \App\Models\Vacancy $vacancy
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(UpdateVacancyRequest $request, Vacancy $vacancy): JsonResponse
     {
@@ -76,11 +79,16 @@ class VacancyController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param \App\Http\Requests\DestroyVacancyRequest $request
      * @param \App\Models\Vacancy $vacancy
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Vacancy $vacancy)
+    public function destroy(DestroyVacancyRequest $request, Vacancy $vacancy): JsonResponse
     {
-        //
+        Like::destroy($vacancy->likes);
+        Response::destroy($vacancy->responses);
+        $vacancy->delete();
+
+        return response()->json(['status' => 'OK']);
     }
 }

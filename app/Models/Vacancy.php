@@ -30,7 +30,7 @@ class Vacancy extends Model
 
     public function likes()
     {
-        return $this->morphMany(Like::class, 'commentable');
+        return $this->morphMany(Like::class, 'likable');
     }
 
     public static function getAll(

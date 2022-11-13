@@ -16,8 +16,7 @@ return new class extends Migration
         Schema::create('likes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('liked_person_id')->constrained('users');
-            $table->foreignId('liked_vacancy_id')->constrained('vacancies');
+            $table->morphs('likable');
             $table->timestamps();
             $table->softDeletes();
         });

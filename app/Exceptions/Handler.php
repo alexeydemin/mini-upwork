@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -47,6 +48,12 @@ class Handler extends ExceptionHandler
 
     public function render($request, $e)
     {
+        if ($e instanceof ModelNotFoundException) {
+            return response()->json([
+                'status' => 'ERROR',
+                'message' => 'The given entity was already deleted'
+            ], 404);
+        }
         if ($e instanceof AuthenticationException) {
             return response()->json([
                 'status' => 'ERROR',
