@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -45,11 +46,11 @@ class Handler extends ExceptionHandler
 
     public function render($request, $e)
     {
-        if ($e instanceof ValidationException) {
+        if ($e instanceof AuthenticationException) {
             return response()->json([
                 'status' => 'ERROR',
-                'message' => $e->getMessage()
-            ], 400);
+                'message' => 'You are not authenticated'
+            ], 401);
         }
 
         if ($e instanceof MethodNotAllowedHttpException) {
@@ -61,6 +62,10 @@ class Handler extends ExceptionHandler
 
         if ($e instanceof NotFoundHttpException) {
             return response()->json(['status' => 'ERROR', 'message' => 'The specified URL cannot be found'], 404);
+        }
+
+        if ($e instanceof ValidationException) {
+            return response()->json(['status' => 'ERROR', 'message' => $e->getMessage()], 422);
         }
 
         if ($e instanceof HttpException) {

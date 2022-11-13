@@ -15,10 +15,10 @@ use App\Http\Controllers\VacancyController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
-Route::apiResources([
-    'vacancies' => VacancyController::class
-]);
+Route::controller(VacancyController::class)->group(function () {
+    Route::get('vacancies', 'index');
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::post('vacancies', 'store');
+    });
+});

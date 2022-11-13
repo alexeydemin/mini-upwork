@@ -13,6 +13,11 @@ class Vacancy extends Model
     public const DATE = 'date';
     public const RESPONSES = 'responses';
 
+    protected $fillable = [
+        'title',
+        'description',
+    ];
+
     public function responses()
     {
         return $this->hasMany(Response::class);

@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,5 +20,11 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/tokens/create', function (Request $request) {
+    $token = $request->user()->createToken($request->user()->email .  '_'.  date('Y-m-d_H_i'));
+
+    return ['token' => $token->plainTextToken];
+});
 
 require __DIR__.'/auth.php';

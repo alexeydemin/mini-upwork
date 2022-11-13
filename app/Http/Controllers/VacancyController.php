@@ -34,7 +34,10 @@ class VacancyController extends Controller
      */
     public function store(StoreVacancyRequest $request)
     {
-        //
+        return $request->user()->vacancies()->create([
+            'title' => $request->title,
+            'description' => $request->description,
+        ]);
     }
 
     /**
