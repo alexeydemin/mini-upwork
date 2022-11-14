@@ -51,7 +51,7 @@ class Handler extends ExceptionHandler
         if ($e instanceof ModelNotFoundException) {
             return response()->json([
                 'status' => 'ERROR',
-                'message' => 'The given entity was already deleted'
+                'message' => 'The given entity does not exist'
             ], 404);
         }
         if ($e instanceof AuthenticationException) {

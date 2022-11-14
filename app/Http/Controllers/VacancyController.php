@@ -56,7 +56,7 @@ class VacancyController extends Controller
      */
     public function show(Vacancy $vacancy): JsonResponse
     {
-        //
+        return response()->json($vacancy);
     }
 
     /**
