@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('vacancy_id')->constrained();
             $table->string('text');
             $table->timestamps();
-            $table->softDeletes();
+            $table->unique(['vacancy_id', 'user_id']);
         });
 
     }

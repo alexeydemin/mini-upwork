@@ -24,6 +24,7 @@ class DestroyVacancyRequest extends FormRequest
     public function rules()
     {
         return [
+            //
         ];
     }
 }
