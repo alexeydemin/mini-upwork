@@ -9,6 +9,11 @@ class Response extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'vacancy_id',
+        'text',
+    ];
+
     public function vacancy()
     {
         return $this->belongsTo(Vacancy::class);

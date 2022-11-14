@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VacancyController;
+use App\Http\Controllers\ResponseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +25,12 @@ Route::controller(VacancyController::class)->group(function () {
         Route::delete('vacancies/{vacancy}', 'destroy');
     });
 });
+
+Route::controller(ResponseController::class)->middleware('auth:sanctum')->group(function () {
+    Route::post('responses', 'store');
+    Route::delete('responses/{response}', 'destroy');
+});
+
 
 //Route::apiResources([
 //    'vacancies' => VacancyController::class
