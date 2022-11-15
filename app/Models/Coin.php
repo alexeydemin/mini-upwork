@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Auth;
 
 class Coin
 {
-
     public static function creditCoins($user)
     {
         $coinsAmount = $user->coins;

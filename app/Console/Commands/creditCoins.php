@@ -29,7 +29,7 @@ class creditCoins extends Command
      */
     public function handle()
     {
-        foreach(User::all() as $user){
+        foreach (User::all() as $user) {
             Coin::creditCoins($user);
         }
 

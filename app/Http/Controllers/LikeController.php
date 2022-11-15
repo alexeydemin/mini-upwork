@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 
 class LikeController extends Controller
 {
-
     public function indexVacancies(Request $request)
     {
         $likes = Like::where('user_id', $request->user()->id)
@@ -43,6 +42,4 @@ class LikeController extends Controller
 
         return response()->json(['status' => 'OK']);
     }
-
-
 }

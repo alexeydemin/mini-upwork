@@ -13,12 +13,14 @@ use Illuminate\Queue\SerializesModels;
 
 class ResponseReceived extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
 
     public function __construct(
         public Response $response,
-    ) {}
+    ) {
+    }
 
     /**
      * Get the message envelope.

@@ -24,7 +24,6 @@ class VacancyObserver
             $waitingTime = CarbonInterval::seconds($seconds)->cascade();
             throw new RateLimitException($waitingTime);
         }
-
     }
 
     /**
@@ -37,5 +36,4 @@ class VacancyObserver
     {
         RateLimiter::hit('post-vacancy:' . Auth::user()->id, 24 * 60 * 60);
     }
-
 }
