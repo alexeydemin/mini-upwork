@@ -10,10 +10,9 @@ use App\Models\Coin;
 use App\Models\Like;
 use App\Models\Response;
 use App\Models\Vacancy;
-use Carbon\CarbonInterval;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\RateLimiter;
 
 class VacancyController extends Controller
 {
@@ -44,25 +43,13 @@ class VacancyController extends Controller
      */
     public function store(StoreVacancyRequest $request): JsonResponse
     {
-        $user = $request->user();
-        if (!RateLimiter::remaining('post-vacancy:' . $user->id, env('MAX_VACANCIES_PER_DAY'))) {
-            $seconds = RateLimiter::availableIn('post-vacancy:' . $user->id);
-            $human = CarbonInterval::seconds($seconds)->cascade();
-            return response()->json([
-                'status' => 'ERROR',
-                'message' => "You can post new vacancy in $human"
-            ], 429);
-        }
-
-        $vacancy = DB::transaction(function () use ($request, $user) {
+        $vacancy = DB::transaction(function () use ($request) {
             Coin::chargeForVacancy();
-            return $user->vacancies()->create([
+            return Auth::user()->vacancies()->create([
                 'title' => $request->title,
                 'description' => $request->description,
             ]);
         });
-
-        RateLimiter::hit('post-vacancy:' . $user->id, 24 * 60 * 60);
 
         return response()->json($vacancy);
     }

@@ -48,6 +48,13 @@ class Handler extends ExceptionHandler
 
     public function render($request, $e)
     {
+        if($e instanceof RateLimitException){
+            return response()->json([
+                'status' => 'ERROR',
+                'message' => "You can post new vacancy in {$e->getMessage()}"
+            ], 429);
+        }
+
         if($e instanceof NotEnoughCoinsException){
             return response()->json([
                 'status' => 'ERROR',
