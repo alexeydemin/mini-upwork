@@ -9,7 +9,9 @@ use App\Http\Requests\UpdateVacancyRequest;
 use App\Models\Like;
 use App\Models\Response;
 use App\Models\Vacancy;
+use Carbon\CarbonInterval;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\RateLimiter;
 
 class VacancyController extends Controller
 {
@@ -40,12 +42,24 @@ class VacancyController extends Controller
      */
     public function store(StoreVacancyRequest $request): JsonResponse
     {
-        $vacancy = $request->user()->vacancies()->create([
-            'title' => $request->title,
-            'description' => $request->description,
-        ]);
 
-        return response()->json($vacancy);
+        $user = $request->user();
+        if (RateLimiter::remaining('post-vacancy:' . $user->id, env('MAX_VACANCIES_PER_DAY'))) {
+            $vacancy = $user->vacancies()->create([
+                'title' => $request->title,
+                'description' => $request->description,
+            ]);
+            if ($vacancy) {
+                RateLimiter::hit('post-vacancy:' . $user->id, 24*60*60);
+                return response()->json($vacancy);
+            }
+        }
+        $seconds = RateLimiter::availableIn('post-vacancy:'.$user->id);
+        $human = CarbonInterval::seconds($seconds)->cascade();
+        return response()->json([
+            'status' => 'ERROR',
+            'message' => "You can post new vacancy in $human"
+        ], 429);
     }
 
     /**
