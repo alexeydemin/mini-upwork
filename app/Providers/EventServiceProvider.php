@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Response;
 use App\Models\Vacancy;
+use App\Observers\ResponseObserver;
 use App\Observers\VacancyObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -29,5 +31,6 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         Vacancy::observe(VacancyObserver::class);
+        Response::observe(ResponseObserver::class);
     }
 }

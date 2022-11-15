@@ -13,7 +13,7 @@ class VacancyObserver
     /**
      * Handle the Vacancy "creating" event.
      *
-     * @param  \App\Models\Vacancy $vacancy
+     * @param \App\Models\Vacancy $vacancy
      * @return void
      */
     public function creating()
@@ -30,7 +30,7 @@ class VacancyObserver
     /**
      * Handle the Vacancy "created" event.
      *
-     * @param  \App\Models\Vacancy  $vacancy
+     * @param \App\Models\Vacancy $vacancy
      * @return void
      */
     public function created(Vacancy $vacancy)
@@ -38,47 +38,4 @@ class VacancyObserver
         RateLimiter::hit('post-vacancy:' . Auth::user()->id, 24 * 60 * 60);
     }
 
-    /**
-     * Handle the Vacancy "updated" event.
-     *
-     * @param  \App\Models\Vacancy  $vacancy
-     * @return void
-     */
-    public function updated(Vacancy $vacancy)
-    {
-        //
-    }
-
-    /**
-     * Handle the Vacancy "deleted" event.
-     *
-     * @param  \App\Models\Vacancy  $vacancy
-     * @return void
-     */
-    public function deleted(Vacancy $vacancy)
-    {
-        //
-    }
-
-    /**
-     * Handle the Vacancy "restored" event.
-     *
-     * @param  \App\Models\Vacancy  $vacancy
-     * @return void
-     */
-    public function restored(Vacancy $vacancy)
-    {
-        //
-    }
-
-    /**
-     * Handle the Vacancy "force deleted" event.
-     *
-     * @param  \App\Models\Vacancy  $vacancy
-     * @return void
-     */
-    public function forceDeleted(Vacancy $vacancy)
-    {
-        //
-    }
 }
