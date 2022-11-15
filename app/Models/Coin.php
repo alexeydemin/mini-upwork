@@ -11,8 +11,8 @@ class Coin
     public static function creditCoins($user)
     {
         $coinsAmount = $user->coins;
-        $newAmount = $coinsAmount + env('CREDIT_COINS_PER_DAY');
-        if ($newAmount <= env('MAX_COINS_PER_USER')) {
+        $newAmount = $coinsAmount + config('app.credit_coins_per_day');
+        if ($newAmount <= config('app.max_coins_per_user')) {
             $user->update([
                 'coins' => $newAmount
             ]);
@@ -21,12 +21,12 @@ class Coin
 
     public static function chargeForVacancy()
     {
-        self::chargeForAction(env('VACANCY_PRICE'));
+        self::chargeForAction(config('app.vacancy_price'));
     }
 
     public static function chargeForResponse()
     {
-        self::chargeForAction(env('RESPONSE_PRICE'));
+        self::chargeForAction(config('app.response_price'));
     }
 
     private static function chargeForAction($chargeAmount)

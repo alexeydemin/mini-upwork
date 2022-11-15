@@ -19,7 +19,7 @@ class VacancyObserver
     public function creating()
     {
         $user = Auth::user();
-        if (!RateLimiter::remaining('post-vacancy:' . $user->id, env('MAX_VACANCIES_PER_DAY'))) {
+        if (!RateLimiter::remaining('post-vacancy:' . $user->id, config('app.max_vacancies_per_day'))) {
             $seconds = RateLimiter::availableIn('post-vacancy:' . $user->id);
             $waitingTime = CarbonInterval::seconds($seconds)->cascade();
             throw new RateLimitException($waitingTime);

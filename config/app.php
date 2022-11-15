@@ -233,4 +233,11 @@ return [
 
     ],
 
+    // Application specific settings
+    'max_vacancies_per_day' => env('MAX_VACANCIES_PER_DAY', 2),
+    'max_coins_per_user' => env('MAX_COINS_PER_USER', 5),
+    'credit_coins_per_day' => env('CREDIT_COINS_PER_DAY', 1),
+    'vacancy_price' => env('VACANCY_PRICE', 2),
+    'response_price' => env('RESPONSE_PRICE', 1),
+
 ];
