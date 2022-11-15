@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VacancyController;
 use App\Http\Controllers\ResponseController;
+use App\Http\Controllers\LikeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,12 @@ Route::controller(ResponseController::class)->middleware('auth:sanctum')->group(
     Route::delete('responses/{response}', 'destroy');
 });
 
+Route::controller(LikeController::class)->middleware('auth:sanctum')->group(function () {
+    Route::get('likes/vacancies', 'indexVacancies');
+    Route::get('likes/users', 'indexUsers');
+    Route::post('likes/vacancies/{vacancy}', 'storeVacancy');
+    Route::post('likes/users/{user}', 'storeUser');
+});
 
 //Route::apiResources([
 //    'vacancies' => VacancyController::class

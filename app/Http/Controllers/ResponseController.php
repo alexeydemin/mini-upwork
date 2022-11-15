@@ -39,6 +39,7 @@ class ResponseController extends Controller
     public function destroy(DestroyResponseRequest $request, Response $response)
     {
         $response->delete();
+
         return response()->json(['status' => 'OK']);
     }
 }
