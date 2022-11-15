@@ -48,6 +48,13 @@ class Handler extends ExceptionHandler
 
     public function render($request, $e)
     {
+        if($e instanceof NotEnoughCoinsException){
+            return response()->json([
+                'status' => 'ERROR',
+                'message' => 'You do not have enough coins for this operation'
+            ], 400);
+        }
+
         if ($e instanceof ModelNotFoundException) {
             return response()->json([
                 'status' => 'ERROR',

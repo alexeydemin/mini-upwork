@@ -2,10 +2,32 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Exceptions\NotEnoughCoinsException;
+use Illuminate\Support\Facades\Auth;
 
-class Coin extends Model
+class Coin
 {
-    use HasFactory;
+
+    public function creditCoins($user)
+    {
+        //Auth::user()->getAuthPassword();
+    }
+
+    public static function chargeForVacancy()
+    {
+        $coinsAmount = Auth::user()->coins;
+        $newAmount = $coinsAmount - env('VACANCY_PRICE');
+        if ($newAmount >= 0) {
+            Auth::user()->update([
+                'coins' => $newAmount
+            ]);
+        } else {
+            throw new NotEnoughCoinsException();
+        }
+    }
+
+    public function chargeForResponse()
+    {
+
+    }
 }
