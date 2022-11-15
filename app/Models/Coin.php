@@ -8,15 +8,31 @@ use Illuminate\Support\Facades\Auth;
 class Coin
 {
 
-    public function creditCoins($user)
+    public static function creditCoins($user)
     {
-        //Auth::user()->getAuthPassword();
+        $coinsAmount = $user->coins;
+        $newAmount = $coinsAmount + env('CREDIT_COINS_PER_DAY');
+        if ($newAmount <= env('MAX_COINS_PER_USER')) {
+            $user->update([
+                'coins' => $newAmount
+            ]);
+        }
     }
 
     public static function chargeForVacancy()
     {
+        self::chargeForAction(env('VACANCY_PRICE'));
+    }
+
+    public static function chargeForResponse()
+    {
+        self::chargeForAction(env('RESPONSE_PRICE'));
+    }
+
+    private static function chargeForAction($chargeAmount)
+    {
         $coinsAmount = Auth::user()->coins;
-        $newAmount = $coinsAmount - env('VACANCY_PRICE');
+        $newAmount = $coinsAmount - $chargeAmount;
         if ($newAmount >= 0) {
             Auth::user()->update([
                 'coins' => $newAmount
@@ -24,10 +40,5 @@ class Coin
         } else {
             throw new NotEnoughCoinsException();
         }
-    }
-
-    public function chargeForResponse()
-    {
-
     }
 }

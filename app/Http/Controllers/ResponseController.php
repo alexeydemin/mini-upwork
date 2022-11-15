@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\DestroyResponseRequest;
 use App\Http\Requests\StoreResponseRequest;
+use App\Models\Coin;
 use App\Models\Response;
 use App\Models\Vacancy;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ResponseController extends Controller
 {
@@ -21,10 +24,14 @@ class ResponseController extends Controller
         if (!Vacancy::find($request->vacancyId)) {
             throw new ModelNotFoundException();
         }
-        $response = $request->user()->responses()->create([
-            'vacancy_id' => $request->vacancyId,
-            'text' => $request->text,
-        ]);
+
+        $response = DB::transaction(function () use ($request) {
+            Coin::chargeForResponse();
+            return Auth::user()->responses()->create([
+                'vacancy_id' => $request->vacancyId,
+                'text' => $request->text,
+            ]);
+        });
 
         return response()->json($response);
     }
