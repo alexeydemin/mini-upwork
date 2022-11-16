@@ -14,7 +14,7 @@ class StoreResponseRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->id != Vacancy::find($this->vacancyId)->user_id;
+        return $this->user()->id != Vacancy::find($this->vacancy_id)->user_id;
     }
 
     /**
@@ -25,7 +25,7 @@ class StoreResponseRequest extends FormRequest
     public function rules()
     {
         return [
-            'vacancyId' => 'required|unique:responses,vacancy_id,NULL,id,user_id,' . $this->user()->id,
+            'vacancy_id' => 'required|unique:responses,vacancy_id,NULL,id,user_id,' . $this->user()->id,
             'text' => 'required',
         ];
     }
@@ -33,7 +33,7 @@ class StoreResponseRequest extends FormRequest
     public function messages()
     {
         return [
-            'vacancyId.unique' => 'You already responded to this vacancy',
+            'vacancy_id.unique' => 'You already responded to this vacancy',
         ];
     }
 }

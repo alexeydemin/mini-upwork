@@ -19,7 +19,7 @@
      - PATCH http://0.0.0.0/api/vacancies/1 - Edit vacancy, e.g. `{"title": "PHP programmer", "description":"PHP programmer vacancy description"}`
      - DELETE http://0.0.0.0/api/vacancies/1 - Delete vacancy
    - Response
-     - POST http://0.0.0.0/api/responses - Create response `{"vacancyId":1, "text": "I want this job!"}`
+     - POST http://0.0.0.0/api/responses - Create response `{"vacancy_id":1, "text": "I want this job!"}`
      - DELETE http://0.0.0.0/api/responses/1 - Delete response 
    - Likes
      - POST http://0.0.0.0/api/likes/users/1 - Like a user

@@ -51,7 +51,7 @@ class VacancyController extends Controller
             ]);
         });
 
-        return response()->json($vacancy);
+        return response()->json($vacancy->withoutRelations());
     }
 
     /**
@@ -62,7 +62,7 @@ class VacancyController extends Controller
      */
     public function show(Vacancy $vacancy): JsonResponse
     {
-        return response()->json($vacancy);
+        return response()->json($vacancy->withoutRelations());
     }
 
     /**
@@ -74,12 +74,12 @@ class VacancyController extends Controller
      */
     public function update(UpdateVacancyRequest $request, Vacancy $vacancy): JsonResponse
     {
-        $vacancy = $vacancy->update([
+        $vacancy->update([
             'title' => $request->title,
             'description' => $request->description,
         ]);
 
-        return response()->json($vacancy);
+        return response()->json($vacancy->withoutRelations());
     }
 
     /**

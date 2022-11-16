@@ -21,14 +21,14 @@ class ResponseController extends Controller
      */
     public function store(StoreResponseRequest $request)
     {
-        if (!Vacancy::find($request->vacancyId)) {
+        if (!Vacancy::find($request->vacancy_id)) {
             throw new ModelNotFoundException();
         }
 
         $response = DB::transaction(function () use ($request) {
             Coin::chargeForResponse();
             return Auth::user()->responses()->create([
-                'vacancy_id' => $request->vacancyId,
+                'vacancy_id' => $request->vacancy_id,
                 'text' => $request->text,
             ]);
         });

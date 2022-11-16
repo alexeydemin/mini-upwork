@@ -77,7 +77,7 @@ resources:
     method: POST
     body:
       mimeType: application/json
-      text: '{"vacancyId":1, "text": "I want to do this job!!!!"}'
+      text: '{"vacancy_id":1, "text": "I want to do this job!!!!"}'
     parameters: []
     headers:
       - name: Content-Type
